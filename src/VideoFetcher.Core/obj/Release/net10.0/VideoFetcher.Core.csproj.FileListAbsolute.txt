@@ -1,0 +1,12 @@
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Core\bin\Release\net10.0\VideoFetcher.Core.deps.json
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Core\bin\Release\net10.0\VideoFetcher.Core.dll
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Core\bin\Release\net10.0\VideoFetcher.Core.pdb
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Core\obj\Release\net10.0\VideoFetcher.Core.csproj.AssemblyReference.cache
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Core\obj\Release\net10.0\VideoFetcher.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Core\obj\Release\net10.0\VideoFetcher.Core.AssemblyInfoInputs.cache
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Core\obj\Release\net10.0\VideoFetcher.Core.AssemblyInfo.cs
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Core\obj\Release\net10.0\VideoFetcher.Core.csproj.CoreCompileInputs.cache
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Core\obj\Release\net10.0\VideoFetcher.Core.dll
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Core\obj\Release\net10.0\refint\VideoFetcher.Core.dll
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Core\obj\Release\net10.0\VideoFetcher.Core.pdb
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Core\obj\Release\net10.0\ref\VideoFetcher.Core.dll

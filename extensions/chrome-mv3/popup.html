@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <title>Video Fetcher</title>
+  <style>
+    body { width: 390px; margin: 0; padding: 14px; background: #0B0E17; color: #F8FAFC; font-family: "Segoe UI", sans-serif; font-size: 12px; }
+    .hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .badge { font-size: 11px; color: #6EE7B7; font-weight: 600; }
+    label { display: block; color: #94A3B8; font-size: 11px; margin: 8px 0 4px; }
+    select, input, button { width: 100%; box-sizing: border-box; border-radius: 10px; border: 1px solid #232B3E; background: #141A29; color: #F8FAFC; padding: 8px 10px; font-size: 12px; }
+    .row { display: flex; gap: 6px; margin-top: 6px; }
+    .row > select { flex: 1; }
+    .row > button { width: auto; white-space: nowrap; cursor: pointer; }
+    .primary { background: #FFFFFF; color: #090B10; font-weight: 600; border: none; margin-top: 10px; cursor: pointer; padding: 10px; }
+    .primary:disabled { opacity: 0.45; cursor: not-allowed; }
+    #status { margin-top: 8px; color: #7DD3FC; font-size: 11px; min-height: 16px; }
+    details { margin-top: 8px; color: #94A3B8; }
+    summary { cursor: pointer; font-size: 11px; }
+  </style>
+</head>
+<body>
+  <div class="hdr">
+    <strong style="font-size:14px;">Video Fetcher</strong>
+    <span id="pill" class="badge">Taranıyor...</span>
+  </div>
+
+  <label>Çözünürlük / Kalite Seçimi (Alaka Sıralı)</label>
+  <select id="streamSelect"></select>
+
+  <label>Altyazı (Site İçi + OpenSubtitles)</label>
+  <div class="row">
+    <input id="subQuery" placeholder="Yapım adı (örn. Dexter S02E03)" />
+    <button id="subSearchBtn">Ara</button>
+  </div>
+  <div class="row">
+    <select id="subSelect"><option value="">— Altyazısız —</option></select>
+    <button id="subDlBtn">SRT İndir</button>
+  </div>
+
+  <button id="dlBtn" class="primary" disabled>İndir</button>
+  <div id="status"></div>
+
+  <details>
+    <summary id="otherSummary">Diğer / Düşük Alakalı Akışlar (0)</summary>
+    <select id="otherSelect" style="margin-top:6px;"></select>
+  </details>
+  <script src="ts2mp4.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

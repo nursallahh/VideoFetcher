@@ -1,0 +1,15 @@
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Infrastructure\bin\Release\net10.0\VideoFetcher.Infrastructure.deps.json
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Infrastructure\bin\Release\net10.0\VideoFetcher.Infrastructure.dll
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Infrastructure\bin\Release\net10.0\VideoFetcher.Infrastructure.pdb
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Infrastructure\bin\Release\net10.0\VideoFetcher.Core.dll
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Infrastructure\bin\Release\net10.0\VideoFetcher.Core.pdb
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Infrastructure\obj\Release\net10.0\VideoFetcher.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Infrastructure\obj\Release\net10.0\VideoFetcher.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Infrastructure\obj\Release\net10.0\VideoFetcher.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Infrastructure\obj\Release\net10.0\VideoFetcher.Infrastructure.AssemblyInfo.cs
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Infrastructure\obj\Release\net10.0\VideoFetcher.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Infrastructure\obj\Release\net10.0\VideoFet.87FAFD42.Up2Date
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Infrastructure\obj\Release\net10.0\VideoFetcher.Infrastructure.dll
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Infrastructure\obj\Release\net10.0\refint\VideoFetcher.Infrastructure.dll
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Infrastructure\obj\Release\net10.0\VideoFetcher.Infrastructure.pdb
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\src\VideoFetcher.Infrastructure\obj\Release\net10.0\ref\VideoFetcher.Infrastructure.dll

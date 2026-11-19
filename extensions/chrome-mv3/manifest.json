@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "Video Fetcher",
+  "version": "1.5.0",
+  "description": "HLS, DASH, MP4 ve site içi/harici altyazı yakalayıcı (Masaüstü özellikleriyle eşitlenmiş MV3 sürümü).",
+  "permissions": [
+    "webRequest",
+    "tabs",
+    "downloads",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "all_frames": true,
+      "run_at": "document_start",
+      "js": ["content.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Video Fetcher"
+  }
+}

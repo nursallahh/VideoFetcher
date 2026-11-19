@@ -1,0 +1,5 @@
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\artifacts\release\win-x64\VideoFetcher.Core.dll
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\artifacts\release\win-x64\VideoFetcher.Core.deps.json
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\artifacts\release\win-x64\VideoFetcher.Core.pdb
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\artifacts\release\win-x64\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\nursallah\Desktop\VideoFetcherApp\VideoFetcher\artifacts\release\win-x64\Microsoft.Extensions.Logging.Abstractions.dll

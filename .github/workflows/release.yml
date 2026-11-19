@@ -1,0 +1,32 @@
+name: Release Build & Package
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  package-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Run Tests
+        run: dotnet test tests/VideoFetcher.UnitTests/VideoFetcher.UnitTests.csproj --configuration Release
+      - name: Publish Portable x64
+        run: dotnet publish src/VideoFetcher.Core/VideoFetcher.Core.csproj -c Release -r win-x64 --self-contained false -o ./publish/win-x64
+      - name: Archive Release ZIP
+        shell: pwsh
+        run: |
+          Compress-Archive -Path ./publish/win-x64/* -DestinationPath ./VideoFetcher-${{ github.ref_name }}-win-x64.zip
+          Get-FileHash ./VideoFetcher-${{ github.ref_name }}-win-x64.zip -Algorithm SHA256 | Format-List
+      - name: Upload GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ./VideoFetcher-${{ github.ref_name }}-win-x64.zip

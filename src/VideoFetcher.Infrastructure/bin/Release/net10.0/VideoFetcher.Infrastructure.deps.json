@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "VideoFetcher.Infrastructure/1.0.0": {
+        "dependencies": {
+          "VideoFetcher.Core": "1.0.0"
+        },
+        "runtime": {
+          "VideoFetcher.Infrastructure.dll": {}
+        }
+      },
+      "VideoFetcher.Core/1.0.0": {
+        "runtime": {
+          "VideoFetcher.Core.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "VideoFetcher.Infrastructure/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "VideoFetcher.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

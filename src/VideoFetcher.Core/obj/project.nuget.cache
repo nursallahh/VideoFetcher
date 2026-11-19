@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "LX/8NIUBuCY=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\nursallah\\Desktop\\VideoFetcherApp\\VideoFetcher\\src\\VideoFetcher.Core\\VideoFetcher.Core.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\nursallah\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.0\\microsoft.extensions.dependencyinjection.abstractions.10.0.0.nupkg.sha512",
+    "C:\\Users\\nursallah\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\10.0.0\\microsoft.extensions.logging.abstractions.10.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
