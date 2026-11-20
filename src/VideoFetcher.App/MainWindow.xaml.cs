@@ -755,11 +755,9 @@ public sealed partial class MainWindow : Window
 
             var progress = new Progress<DownloadProgress>(p => DispatcherQueue.TryEnqueue(() =>
             {
-                if (p.Percentage >= _maxProgressPct)
-                {
-                    _maxProgressPct = p.Percentage;
-                    HudProgress.Value = p.Percentage;
-                }
+                if (p.Percentage < _maxProgressPct) return;
+                _maxProgressPct = p.Percentage;
+                HudProgress.Value = p.Percentage;
                 HudProgressLabel.Text = p.StatusMessage;
             }));
 

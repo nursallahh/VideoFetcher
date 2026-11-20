@@ -10,14 +10,12 @@ namespace VideoFetcher.Infrastructure.Media;
 public sealed class FfmpegConversionEngine : IConversionEngine
 {
     private readonly ILogger<FfmpegConversionEngine> _logger;
-    private readonly string _ffmpegExecutable;
     private string? _cachedHwEncoder;
     public string LastDiagnosticLog { get; private set; } = "";
 
     public FfmpegConversionEngine(ILogger<FfmpegConversionEngine> logger)
     {
         _logger = logger;
-        _ffmpegExecutable = ResolveToolPath("ffmpeg.exe", "ffmpeg");
     }
 
     private static string ResolveToolPath(string exeName, string fallback)
@@ -43,7 +41,7 @@ public sealed class FfmpegConversionEngine : IConversionEngine
             {
                 var psi = new ProcessStartInfo
                 {
-                    FileName = _ffmpegExecutable,
+                    FileName = ResolveToolPath("ffmpeg.exe", "ffmpeg"),
                     Arguments = $"-y -f lavfi -i color=c=black:s=256x256:d=0.1 -vframes 1 -c:v {hw} -f null -",
                     RedirectStandardError = true,
                     UseShellExecute = false,
@@ -434,7 +432,7 @@ public sealed class FfmpegConversionEngine : IConversionEngine
 
     private async Task RunFfmpegAsync(IEnumerable<string> arguments, CancellationToken cancellationToken)
     {
-        var psi = new ProcessStartInfo { FileName = _ffmpegExecutable, RedirectStandardError = true, UseShellExecute = false, CreateNoWindow = true };
+        var psi = new ProcessStartInfo { FileName = ResolveToolPath("ffmpeg.exe", "ffmpeg"), RedirectStandardError = true, UseShellExecute = false, CreateNoWindow = true };
         foreach (var a in arguments) psi.ArgumentList.Add(a);
 
         using var process = new Process { StartInfo = psi };
