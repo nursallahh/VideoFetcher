@@ -93,7 +93,8 @@ public sealed partial class MainWindow : Window
     private bool _isDownloading;
     private double _maxProgressPct;
     private bool _adBlockEnabled = true;
-    private static readonly Version CurrentAppVersion = new(1, 7, 7);
+    private static readonly Version CurrentAppVersion = new(1, 8, 0);
+    private string? _latestUpdateTag;
 
     public MainWindow(IServiceProvider services)
     {
@@ -133,10 +134,13 @@ public sealed partial class MainWindow : Window
             string cleanVer = tag.TrimStart('v', 'V').Split('-')[0];
             if (!Version.TryParse(cleanVer, out var latestVer) || latestVer <= CurrentAppVersion) return;
 
+            _latestUpdateTag = tag;
             DispatcherQueue.TryEnqueue(async () =>
             {
                 try
                 {
+                    UpdatePillButton.Content = $"🆕 Güncelle ({tag})";
+                    UpdatePillButton.Visibility = Visibility.Visible;
                     if (Content?.XamlRoot is null) return;
                     var dlg = new ContentDialog
                     {
@@ -162,6 +166,30 @@ public sealed partial class MainWindow : Window
             });
         }
         catch { }
+    }
+
+    private async void OnUpdatePillClick(object sender, RoutedEventArgs e)
+    {
+        if (Content?.XamlRoot is null || string.IsNullOrWhiteSpace(_latestUpdateTag)) return;
+        var dlg = new ContentDialog
+        {
+            Title = $"Yeni Güncelleme Mevcut ({_latestUpdateTag})",
+            Content = $"Mevcut sürüm: v{CurrentAppVersion}\nYeni sürüm: {_latestUpdateTag}\n\nAçık sekmeleriniz, yer imleriniz ve ayarlarınız korunarak tek tıkla güncellensin mi?",
+            PrimaryButtonText = "Şimdi Güncelle",
+            CloseButtonText = "Daha Sonra",
+            DefaultButton = ContentDialogButton.Primary,
+            XamlRoot = Content.XamlRoot
+        };
+        if (await dlg.ShowAsync() == ContentDialogResult.Primary)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "powershell.exe",
+                Arguments = "-NoProfile -ExecutionPolicy Bypass -Command \"irm https://raw.githubusercontent.com/nursallahh/VideoFetcher/main/scripts/install.ps1 | iex\"",
+                UseShellExecute = true
+            });
+            Application.Current.Exit();
+        }
     }
 
     private async void OnWindowFirstActivated(object sender, WindowActivatedEventArgs args)

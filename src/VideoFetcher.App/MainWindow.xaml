@@ -76,6 +76,7 @@
                     </Button.Flyout>
                 </Button>
                 <Button x:Name="YtDlpScanButton" Content="⚡ yt-dlp Tara" Click="OnYtDlpScanClick" CornerRadius="16" />
+                <Button x:Name="UpdatePillButton" Content="🆕 Güncelleme Var" Click="OnUpdatePillClick" Visibility="Collapsed" CornerRadius="16" Background="#2638BDF8" Foreground="#7DD3FC" BorderBrush="#6038BDF8" />
                 <Button x:Name="RadarPillButton" Content="● Video Hazır" Click="OnToggleHudClick" Visibility="Collapsed" CornerRadius="16" Background="#1A10B981" Foreground="#6EE7B7" BorderBrush="#4D10B981" />
                 <Button x:Name="LibraryButton" Content="📚 Kütüphane" Click="OnRefreshLibraryClick" CornerRadius="16">
                     <Button.Flyout>
