@@ -93,6 +93,7 @@ public sealed partial class MainWindow : Window
     private bool _isDownloading;
     private double _maxProgressPct;
     private bool _adBlockEnabled = true;
+    private static readonly Version CurrentAppVersion = new(1, 7, 7);
 
     public MainWindow(IServiceProvider services)
     {
@@ -114,6 +115,55 @@ public sealed partial class MainWindow : Window
         LoadBrowserStateAndRestoreTabs();
     }
 
+    private async Task CheckForAppUpdateAsync()
+    {
+        try
+        {
+            var client = _httpFactory.CreateClient("HighSpeedMediaClient");
+            using var req = new HttpRequestMessage(HttpMethod.Get, "https://api.github.com/repos/nursallahh/VideoFetcher/releases/latest");
+            req.Headers.TryAddWithoutValidation("User-Agent", "VideoFetcher-Updater");
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+            using var resp = await client.SendAsync(req, cts.Token);
+            if (!resp.IsSuccessStatusCode) return;
+
+            using var doc = JsonDocument.Parse(await resp.Content.ReadAsStringAsync(cts.Token));
+            string? tag = doc.RootElement.TryGetProperty("tag_name", out var tp) ? tp.GetString() : null;
+            if (string.IsNullOrWhiteSpace(tag)) return;
+
+            string cleanVer = tag.TrimStart('v', 'V').Split('-')[0];
+            if (!Version.TryParse(cleanVer, out var latestVer) || latestVer <= CurrentAppVersion) return;
+
+            DispatcherQueue.TryEnqueue(async () =>
+            {
+                try
+                {
+                    if (Content?.XamlRoot is null) return;
+                    var dlg = new ContentDialog
+                    {
+                        Title = $"Yeni Güncelleme Mevcut ({tag})",
+                        Content = $"Mevcut sürüm: v{CurrentAppVersion}\nYeni sürüm: {tag}\n\nAçık sekmeleriniz, yer imleriniz ve ayarlarınız korunarak tek tıkla güncellensin mi?",
+                        PrimaryButtonText = "Şimdi Güncelle",
+                        CloseButtonText = "Daha Sonra",
+                        DefaultButton = ContentDialogButton.Primary,
+                        XamlRoot = Content.XamlRoot
+                    };
+                    if (await dlg.ShowAsync() == ContentDialogResult.Primary)
+                    {
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = "powershell.exe",
+                            Arguments = "-NoProfile -ExecutionPolicy Bypass -Command \"irm https://raw.githubusercontent.com/nursallahh/VideoFetcher/main/scripts/install.ps1 | iex\"",
+                            UseShellExecute = true
+                        });
+                        Application.Current.Exit();
+                    }
+                }
+                catch { }
+            });
+        }
+        catch { }
+    }
+
     private async void OnWindowFirstActivated(object sender, WindowActivatedEventArgs args)
     {
         if (_bootstrapChecked || Content?.XamlRoot is null) return;
@@ -122,6 +172,7 @@ public sealed partial class MainWindow : Window
         if (missing.Count == 0)
         {
             _ = _bootstrap.EnsureToolsReadyAsync(CancellationToken.None);
+            _ = CheckForAppUpdateAsync();
             return;
         }
 
@@ -147,6 +198,7 @@ public sealed partial class MainWindow : Window
                 HudProgress.IsIndeterminate = false;
                 HudProgress.Value = 100;
             }
+            _ = CheckForAppUpdateAsync();
         }
         catch { HudProgress.IsIndeterminate = false; }
     }
