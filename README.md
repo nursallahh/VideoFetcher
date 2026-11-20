@@ -1,39 +1,39 @@
 # Video Fetcher
 
-Windows (`.NET 10` / `WinUI 3` / `WebView2`) için yüksek hızlı, kayıpsız video ve altyazı indirme uygulaması + **Chrome / Edge Manifest V3** tarayıcı eklentisi.
+High-speed, lossless desktop video & subtitle downloader for Windows (`.NET 10` / `WinUI 3` / `WebView2`) with a companion **Chrome / Edge Manifest V3** extension.
 
 ---
 
-## Temel Özellikler
+## Key Features
 
-- **Gömülü WebView2 Tarayıcı:** Çoklu sekme, yerleşik reklam/izleyici kalkanı (`WebResourceRequested`), oturum geri yükleme, yer imleri (`⭐`), ziyaret geçmişi (`🕒`) ve uygulama içi kütüphane (`📚`).
-- **Evrensel Akış Yakalama:** HLS (`.m3u8`, fMP4, ayrı ses ve gömülü altyazı izleri), MPEG-DASH (`.mpd`) ve doğrudan MP4/WebM akışlarını uzantı/MIME gizlenmiş olsa bile ilk baytlardan ve `fetch`/`XHR` kancasından yakalar; DRM korumalı içerikleri engeller.
-- **64 Kanal Adaptif İndirme Motoru:** HTTP/2 ve HTTP/3 destekli, `32 → 64` kanal AIMD hız yönetimi, sahte segment başlığı temizleme ve `Zero-RAM` akış tabanlı birleştirme.
-- **Kayıpsız Birleştirme & Görüntü İyileştirme:**
-  - Varsayılan **Kayıpsız + Otomatik HDR→SDR** modu normal SDR videolara dokunmadan anında `-c:v copy` ile kaydeder.
-  - Opsiyonel **Sinema İyileştirme** modu GPU hızlandırma (`NVENC` / `QSV` / `AMF`) ile düşük çözünürlüklü içeriklerde `CAS` netleştirme, yüksek çözünürlükte hafif renk/kontrast dengesi uygular.
-- **Dahili + Çoklu Veritabanı Altyazı:** Sayfa içi `.vtt`/`.srt` altyazıların yanında IMDb eşleştirmeli OpenSubtitles & Podnapisi araması ve videonun başlangıç zamanına otomatik hizalanan soft-sub (`mov_text`) gömme.
-- **Kuyruk, Kırpma & Binge Modu:** Sıralı indirme kuyruğu, `-ss` / `-to` zaman aralığı kırpma ve bölüm geçişlerinde otomatik indirme.
-- **İlk Açılışta Otomatik Araç Kurulumu:** Sistemde `yt-dlp.exe`, `ffmpeg.exe` veya `ffprobe.exe` eksikse ilk açılışta kullanıcı onayı alarak resmi GitHub sürümlerinden `%LocalAppData%\VideoFetcher\tools` altına kurar.
+- **Embedded WebView2 Browser:** Multi-tab browsing, built-in ad/tracker shield (`WebResourceRequested`), session restore, bookmarks (`⭐`), browsing history (`🕒`), and an in-app media library (`📚`).
+- **Universal Stream Detection:** Automatically captures HLS (`.m3u8`, fMP4, separate audio, and embedded subtitle tracks), MPEG-DASH (`.mpd`), and direct MP4/WebM streams—even when extensions or MIME types are obfuscated—while blocking DRM-protected content.
+- **64-Channel Adaptive Download Engine:** HTTP/2 & HTTP/3 support, `32 → 64` channel AIMD concurrency scaling, fake segment header stripping, and `Zero-RAM` streaming merge.
+- **Lossless Remuxing & Enhancement:**
+  - Default **Lossless + Auto HDR→SDR** profile saves standard SDR videos untouched via `-c:v copy`.
+  - Optional **Cinema Enhancement** mode uses GPU acceleration (`NVENC` / `QSV` / `AMF`) for `CAS` sharpening on lower-resolution content and subtle color/contrast balancing on high-resolution video.
+- **In-Page + Multi-Database Subtitles:** Captures in-page `.vtt`/`.srt` tracks alongside IMDb-matched OpenSubtitles & Podnapisi search, with automatic start-time-aligned soft-subtitle (`mov_text`) embedding.
+- **Queue, Trimming & Binge Mode:** Sequential download queue, `-ss` / `-to` time-range trimming, and automatic episode downloading.
+- **First-Run Tool Bootstrap & Auto-Update:** Prompts for permission on first launch to install missing `yt-dlp.exe`, `ffmpeg.exe`, and `ffprobe.exe` into `%LocalAppData%\VideoFetcher\tools`, and notifies users in-app when new GitHub Releases are published.
 
 ---
 
-## Kurulum
+## Installation
 
-### 1. Tek Satır PowerShell Kurulumu (Önerilen)
-Bu komut önce sistem mimarisini kontrol eder; GitHub Releases'ta hazır `VideoFetcher-win-x64.zip` varsa indirir, yoksa `.NET 10 SDK` kurulumunu kontrol edip kaynak koddan derler, masaüstüne kısayol oluşturur ve uygulamayı başlatır:
+### 1. One-Line PowerShell Installer (Recommended)
+Checks system architecture, downloads the latest `VideoFetcher-win-x64.zip` from GitHub Releases (or installs `.NET 10 SDK` via `winget` and builds from source if no release binary is found), preserves existing tabs/bookmarks/settings on upgrades, creates a Desktop shortcut, and launches the app:
 
 ```powershell
 irm https://raw.githubusercontent.com/nursallahh/VideoFetcher/main/scripts/install.ps1 | iex
 ```
 
-### 2. Hazır Sürüm (Manuel ZIP)
-1. [Releases](https://github.com/nursallahh/VideoFetcher/releases) sayfasından son `VideoFetcher-win-x64.zip` dosyasını indirip bir klasöre çıkarın.
-2. `VideoFetcher.App.exe` dosyasını çalıştırın.
-3. Eksik medya araçları varsa açılan pencerede **İzin Ver ve İndir** seçeneğini onaylayın.
+### 2. Prebuilt Release (Manual ZIP)
+1. Download the latest `VideoFetcher-win-x64.zip` from the [Releases](https://github.com/nursallahh/VideoFetcher/releases) page and extract it.
+2. Run `VideoFetcher.App.exe`.
+3. If prompted for missing media tools, click **İzin Ver ve İndir** (Allow & Download).
 
-### 3. Kaynak Koddan Derleme (Geliştiriciler İçin)
-Gereksinimler: Windows 10/11 (x64) ve [.NET 10 SDK](https://dotnet.microsoft.com/).
+### 3. Build from Source
+Requirements: Windows 10/11 (x64) and [.NET 10 SDK](https://dotnet.microsoft.com/).
 
 ```powershell
 git clone https://github.com/nursallahh/VideoFetcher.git
@@ -44,40 +44,39 @@ powershell -ExecutionPolicy Bypass -File .\scripts\package-release.ps1
 
 ---
 
-## Chrome / Edge Manifest V3 Eklentisi Kurulumu
+## Chrome / Edge Manifest V3 Extension *(In Development)*
 
-1. Tarayıcıda `chrome://extensions` (veya `edge://extensions`) adresini açın.
-2. Sağ üstten **Geliştirici modu**nu açın.
-3. **Paketi açılmış öğe yükle** butonuna tıklayıp `extensions/chrome-mv3` klasörünü seçin.
-4. Eklenti, HLS segmentlerini tarayıcı içinde saf JS (`ts2mp4.js`) ile doğrudan `.mp4` formatına dönüştürür ve site içi/harici altyazıları listeler.
+1. Open `chrome://extensions` (or `edge://extensions`) in your browser.
+2. Enable **Developer mode** in the top-right corner.
+3. Click **Load unpacked** and select the `extensions/chrome-mv3` folder.
 
 ---
 
-## Proje Yapısı
+## Project Structure
 
 ```text
 VideoFetcher/
 ├── src/
-│   ├── VideoFetcher.Core/            # Modeller, HLS/DASH ayrıştırıcılar, dönüştürme planlayıcı
-│   ├── VideoFetcher.Infrastructure/  # 64 kanal indirici, FFmpeg, yt-dlp, altyazı servisleri, bootstrap
-│   └── VideoFetcher.App/             # WinUI 3 + WebView2 masaüstü arayüzü
+│   ├── VideoFetcher.Core/            # Models, HLS/DASH parsers, conversion planner
+│   ├── VideoFetcher.Infrastructure/  # 64-ch downloader, FFmpeg, yt-dlp, subtitles, bootstrap
+│   └── VideoFetcher.App/             # WinUI 3 + WebView2 desktop UI
 ├── tests/
-│   └── VideoFetcher.UnitTests/       # xUnit birim testleri
+│   └── VideoFetcher.UnitTests/       # xUnit unit tests
 ├── extensions/
-│   └── chrome-mv3/                   # Chrome / Edge Manifest V3 eklentisi + ts2mp4.js
+│   └── chrome-mv3/                   # Chrome / Edge Manifest V3 extension (In Development)
 ├── scripts/
-│   ├── install.ps1                   # Tek satır otomatik kurulum betiği
-│   └── package-release.ps1           # Release paketleme betiği
-└── .github/workflows/                # CI & Release otomasyonu
+│   ├── install.ps1                   # One-line smart installer & updater
+│   └── package-release.ps1           # Release packaging script
+└── .github/workflows/                # CI & Release automation
 ```
 
 ---
 
-## Sık Karşılaşılan Durumlar
+## Troubleshooting
 
-- **PowerShell betik çalıştırma izni hatası:** `.\scripts\package-release.ps1` doğrudan engellenirse `powershell -ExecutionPolicy Bypass -File .\scripts\package-release.ps1` komutunu kullanın.
-- **Araçlar kurulu değilse:** Uygulama ilk açılışta `yt-dlp.exe`, `ffmpeg.exe` ve `ffprobe.exe` için otomatik kurulum izni ister; onayladıktan sonra birkaç saniye içinde hazır olur.
+- **PowerShell script execution policy error:** Run `powershell -ExecutionPolicy Bypass -File .\scripts\package-release.ps1` if direct script execution is restricted.
+- **Missing FFmpeg / yt-dlp:** The app prompts once on first launch to download `yt-dlp.exe`, `ffmpeg.exe`, and `ffprobe.exe` from official GitHub releases.
 
-## Lisans
+## License
 
 [MIT](LICENSE)
