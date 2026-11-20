@@ -1,33 +1,35 @@
 # Video Fetcher
 
-**Video Fetcher**, içinde Chromium tabanlı tarayıcı ([Microsoft Edge WebView2](https://learn.microsoft.com/en-us/microsoft-edge/webview2/)) barındıran, arka planda açık medya akışlarını (HLS, DASH, MP4/WebM) tespit edip kayıpsız remux (`ffmpeg -c copy`) ile kaydeden ve aynı Wi-Fi üzerinden QR kod ile mobil cihazlara aktarabilen açık kaynaklı masaüstü uygulamasıdır.
+Modern, yüksek hızlı masaüstü video indirme ve medya dönüştürme aracı (.NET 10 / WinUI 3 / WebView2) + Chrome/Edge Manifest V3 eklentisi.
 
-## Temel Özellikler
-- **3-Tık İndirme Akışı:** Sayfayı aç → Bildirimden veya yüzen HUD kartından kalite/cihaz seç → İndir.
-- **Kayıpsız Öncelikli Medya İşleme:** Önce `-c copy -movflags +faststart` ile kayıpsız MP4/MKV paketleme yapılır; yalnızca hedef cihaz (ör. iOS/mobil) codec'i desteklemiyorsa kullanıcı bilgilendirilerek donanım hızlandırmalı (NVENC/QSV/AMF) dönüştürme uygulanır.
-- **Yüksek Hızlı Paralel İndirme:** `Accept-Ranges: bytes` destekli dosyalarda `RandomAccess.WriteAsync` ile 16–32 kanallı paralel parça indirme ve çok kanallı HLS/DASH segment indirme.
-- **Yerel Wi-Fi QR & HTTP Aktarım:** Gömülü Kestrel sunucusu ve 15 dakikalık tek kullanımlık token ile telefon/tablete kablosuz aktarım.
+## Özellikler
 
-## Kurulum ve Gereksinimler
-- Windows 10 (1809+) veya Windows 11
-- [.NET 8 SDK](https://dotnet.microsoft.com/) (kaynak koddan derlemek için)
-- [WebView2 Runtime](https://developer.microsoft.com/en-us/microsoft-edge/webview2/) (Windows 11'de yerleşik)
-- Harici araçlar (PATH üzerinde veya uygulama dizininde):
-  - `ffmpeg` (LGPL/GPL CLI binary)
-  - `yt-dlp` (Unlicense)
+- **Gömülü WebView2 Tarayıcı:** Çoklu sekme, yerleşik reklam/izleyici kalkanı, oturum geri yükleme, yer imleri ve ziyaret geçmişi.
+- **Evrensel Akış Algılama:** HLS (`.m3u8`, fMP4, ayrı ses ve gömülü altyazı izleri), MPEG-DASH (`.mpd`) ve doğrudan MP4/WebM akışlarını otomatik tanır; DRM korumalı içerikleri engeller.
+- **64 Kanal Adaptif İndirme:** HTTP/2 & HTTP/3 destekli, 32→64 kanal AIMD hız yönetimi ve `Zero-RAM` akış tabanlı segment birleştirme.
+- **Kayıpsız Birleştirme & Akıllı İyileştirme:** Varsayılan kayıpsız remux (`-c:v copy`), otomatik HDR → SDR ton eşleme, opsiyonel çözünürlüğe duyarlı görüntü iyileştirme ve zaman aralığı kırpma (`-ss` / `-to`).
+- **Dahili + Çoklu Veritabanı Altyazı:** Sayfa içi `.vtt`/`.srt` altyazıların yanında IMDb eşleştirmeli OpenSubtitles & Podnapisi araması ve otomatik hizalamalı soft-sub (`mov_text`) gömme.
+- **İlk Açılışta Otomatik Araç Kurulumu:** Eksik `yt-dlp.exe`, `ffmpeg.exe` ve `ffprobe.exe` dosyalarını ilk açılışta kullanıcı onayıyla `%LocalAppData%\VideoFetcher\tools` altına otomatik kurar.
 
-```bash
-git clone https://github.com/<org>/video-fetcher.git
-cd video-fetcher
-dotnet build VideoFetcher.sln --configuration Release
+## Kurulum & Çalıştırma
+
+### Hazır Sürüm (Windows x64)
+1. [Releases](../../releases) sayfasından son `VideoFetcher-win-x64.zip` dosyasını indirip klasöre çıkarın.
+2. `VideoFetcher.App.exe` dosyasını çalıştırın.
+3. Eksik medya araçları varsa açılan pencerede **İzin Ver ve İndir** seçeneğini onaylayın.
+
+### Kaynak Koddan Derleme
+Gereksinimler: [.NET 10 SDK](https://dotnet.microsoft.com/) ve Windows 10/11.
+
+```powershell
 dotnet test tests/VideoFetcher.UnitTests/VideoFetcher.UnitTests.csproj
+dotnet publish src/VideoFetcher.App/VideoFetcher.App.csproj -c Release -p:Platform=x64 --self-contained true -o ./dist/VideoFetcher
 ```
 
-## Yasal Sorumluluk, Telif Hakkı ve Etik Çerçeve
-- **DRM Koruması Atlatılmaz:** Video Fetcher, Widevine, PlayReady veya FairPlay gibi Dijital Hak Yönetimi (DRM / EME) sistemlerini **atlatmaz, kırmaz ve şifre çözmez**. Korumalı akışlar tespit edildiğinde indirme işlemi teknik olarak kilitlenir ve kullanıcı bilgilendirilir.
-- **Kullanıcı Sorumluluğu:** Bu yazılım yalnızca kişisel arşivleme, açık lisanslı/telifsiz medya, eğitim materyalleri veya içerik sahibinin açık iznine sahip olunan videolar için kullanılmalıdır. Kullanıcılar, ziyaret ettikleri web sitelerinin kullanım koşullarına ve yürürlükteki telif hakkı yasalarına uymaktan bizzat sorumludur.
+### Chrome / Edge Eklentisi
+1. Tarayıcıda `chrome://extensions` (veya `edge://extensions`) adresini açın.
+2. **Geliştirici modu**nu etkinleştirin ve **Paketi açılmış öğe yükle** ile `extensions/chrome-mv3` klasörünü seçin.
 
-## Üçüncü Taraf Lisans Uyumu
-- **Video Fetcher (.NET / C#):** MIT Lisansı
-- **FFmpeg:** LGPL v2.1+ / GPL v2+ (harici CLI süreç olarak çağrılır)
-- **yt-dlp:** The Unlicense (harici CLI süreç olarak çağrılır)
+## Lisans
+
+[MIT](LICENSE)
