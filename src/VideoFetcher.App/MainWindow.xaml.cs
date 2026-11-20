@@ -116,7 +116,7 @@ public sealed partial class MainWindow : Window
 
     private async void OnWindowFirstActivated(object sender, WindowActivatedEventArgs args)
     {
-        if (_bootstrapChecked) return;
+        if (_bootstrapChecked || Content?.XamlRoot is null) return;
         _bootstrapChecked = true;
         var missing = _bootstrap.GetMissingTools();
         if (missing.Count == 0)

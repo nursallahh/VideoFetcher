@@ -40,6 +40,7 @@ public sealed partial class YtDlpExtractorBridge : IExtractorBridge
     {
         var candidates = new[]
         {
+            Path.Combine(ToolBootstrapService.ToolsDirectory, "ffmpeg.exe"),
             Path.Combine(AppContext.BaseDirectory, "tools", "ffmpeg.exe"),
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "WinGet", "Links", "ffmpeg.exe")
         };

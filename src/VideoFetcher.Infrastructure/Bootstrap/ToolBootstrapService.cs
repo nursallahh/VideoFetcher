@@ -108,11 +108,14 @@ public sealed class ToolBootstrapService
     {
         Directory.CreateDirectory(ToolsDirectory);
         string ytDlpPath = Path.Combine(ToolsDirectory, "yt-dlp.exe");
-        if (File.Exists(ytDlpPath))
+        if (!IsToolAvailable("yt-dlp.exe"))
+        {
+            await DownloadMissingToolsAsync(null, ct);
+        }
+        else if (File.Exists(ytDlpPath))
         {
             _ = TryPeriodicUpdateAsync(ytDlpPath);
         }
-        await Task.CompletedTask;
     }
 
     private async Task TryPeriodicUpdateAsync(string ytDlpPath)
