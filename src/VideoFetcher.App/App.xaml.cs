@@ -18,6 +18,7 @@ public partial class App : Application
 
     public App()
     {
+        Environment.SetEnvironmentVariable("WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS", "--disable-features=UseHardwareOverlay,CalculateNativeWinOcclusion");
         InitializeComponent();
         var sc = new ServiceCollection();
         sc.AddLogging(b => b.AddDebug());
