@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -13,20 +14,23 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup .NET 8
+      - name: Setup .NET 10
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '10.0.x'
       - name: Run Tests
         run: dotnet test tests/VideoFetcher.UnitTests/VideoFetcher.UnitTests.csproj --configuration Release
-      - name: Publish Portable x64
-        run: dotnet publish src/VideoFetcher.Core/VideoFetcher.Core.csproj -c Release -r win-x64 --self-contained false -o ./publish/win-x64
-      - name: Archive Release ZIP
+      - name: Publish Self-Contained x64
+        run: dotnet publish src/VideoFetcher.App/VideoFetcher.App.csproj -c Release -p:Platform=x64 --self-contained true -o ./dist/VideoFetcher-win-x64
+      - name: Archive Release ZIPs
         shell: pwsh
         run: |
-          Compress-Archive -Path ./publish/win-x64/* -DestinationPath ./VideoFetcher-${{ github.ref_name }}-win-x64.zip
-          Get-FileHash ./VideoFetcher-${{ github.ref_name }}-win-x64.zip -Algorithm SHA256 | Format-List
+          Compress-Archive -Path ./dist/VideoFetcher-win-x64/* -DestinationPath ./VideoFetcher-win-x64.zip -Force
+          Compress-Archive -Path ./extensions/chrome-mv3/* -DestinationPath ./VideoFetcher-ChromeMV3.zip -Force
+          Get-FileHash ./VideoFetcher-win-x64.zip -Algorithm SHA256 | Format-List
       - name: Upload GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: ./VideoFetcher-${{ github.ref_name }}-win-x64.zip
+          files: |
+            ./VideoFetcher-win-x64.zip
+            ./VideoFetcher-ChromeMV3.zip
