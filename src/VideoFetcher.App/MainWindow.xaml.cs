@@ -957,6 +957,7 @@ public sealed partial class MainWindow : Window
                 }
             }
 
+            string extraTags = "";
             if (_engine is FfmpegConversionEngine ffEnh)
             {
                 if (!string.IsNullOrWhiteSpace(job.TrimStart) || !string.IsNullOrWhiteSpace(job.TrimEnd))
@@ -966,6 +967,7 @@ public sealed partial class MainWindow : Window
                     await ffEnh.TrimVideoAsync(rawVideoPath, trimPath, job.TrimStart, job.TrimEnd, ct);
                     try { File.Delete(rawVideoPath); } catch { }
                     rawVideoPath = trimPath;
+                    extraTags += "_Trim";
                 }
 
                 if (job.EnhanceTag == "cinema")
@@ -975,6 +977,7 @@ public sealed partial class MainWindow : Window
                     await ffEnh.EnhanceCinemaQualityAsync(rawVideoPath, enhPath, ct);
                     try { File.Delete(rawVideoPath); } catch { }
                     rawVideoPath = enhPath;
+                    extraTags += "_Cinema";
                 }
                 else if (job.EnhanceTag == "hdr_only" && await ffEnh.IsHdrVideoAsync(rawVideoPath, ct))
                 {
@@ -984,6 +987,7 @@ public sealed partial class MainWindow : Window
                     {
                         try { File.Delete(rawVideoPath); } catch { }
                         rawVideoPath = sdrPath;
+                        extraTags += "_SDR";
                     }
                 }
             }
@@ -991,7 +995,7 @@ public sealed partial class MainWindow : Window
             string resTag = string.IsNullOrWhiteSpace(candidate.Resolution) ? "Video" : candidate.Resolution.Replace("x", "p");
             if (job.Subtitle is { } sub && _engine is FfmpegConversionEngine ffmpegEngine)
             {
-                finalPath = Path.Combine(outDir, $"{safeName}_{resTag}_{sub.Language.ToUpperInvariant()}-Sub_{DateTime.Now:HHmmss}.mp4");
+                finalPath = Path.Combine(outDir, $"{safeName}_{resTag}{extraTags}_{sub.Language.ToUpperInvariant()}-Sub_{DateTime.Now:HHmmss}.mp4");
                 HudProgressLabel.Text = $"Altyazı indiriliyor ve gömülüyor ({sub.Language.ToUpperInvariant()})...";
                 string srtPath = Path.Combine(Path.GetTempPath(), $"sub_{Guid.NewGuid():N}.srt");
                 try
@@ -1010,14 +1014,14 @@ public sealed partial class MainWindow : Window
                 }
                 catch
                 {
-                    finalPath = Path.Combine(outDir, $"{safeName}_{resTag}_{DateTime.Now:HHmmss}.mp4");
+                    finalPath = Path.Combine(outDir, $"{safeName}_{resTag}{extraTags}_{DateTime.Now:HHmmss}.mp4");
                     File.Move(rawVideoPath, finalPath, overwrite: true);
                 }
                 finally { try { File.Delete(srtPath); } catch { } }
             }
             else
             {
-                finalPath = Path.Combine(outDir, $"{safeName}_{resTag}_{DateTime.Now:HHmmss}.mp4");
+                finalPath = Path.Combine(outDir, $"{safeName}_{resTag}{extraTags}_{DateTime.Now:HHmmss}.mp4");
                 File.Move(rawVideoPath, finalPath, overwrite: true);
             }
 
